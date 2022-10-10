@@ -66,5 +66,127 @@ function punto4(beers){
         }
     }
     return array
+} 
+function cervezaPropiedad(beers, propiedad){
+    let num = 200000
+    let y = 0
+    for(let it in beers){
+        if(beers[it][propiedad] <= num){
+            num = beers[it][propiedad]
+            y = it
+        }
+    }
+    return y
+}
+function arrayPunto5(beers,propiedad){
+    let array = []
+    for(let it in beers){
+        if(it >= 10){
+            if(beers[it][propiedad] >= array[cervezaPropiedad(array,propiedad)][propiedad]){
+                array[cervezaPropiedad(array,propiedad)] = beers[it]
+              
+            }
+        }
+        else{
+            array.push(beers[it])
+        }
+    }
+    return array
+}
+function arrayNum(beers,propiedad){
+    let array = []
+    for(let y of arrayPunto5(beers,propiedad)){
+        array.push(y[propiedad])
+    }
+    return array
 }
 
+
+function swap(items, leftIndex, rightIndex){
+    let temp = items[leftIndex];
+    items[leftIndex] = items[rightIndex];
+    items[rightIndex] = temp;
+}
+function partitionAscendente(items, left, right, arry) {
+    let pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i] < pivot) {
+            i++;
+        }
+        while (items[j] > pivot) {
+            j--;
+        }
+        if (i <= j) {
+            swap(items, i, j); //sawpping two elements
+            swap(arry, i ,j)
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+
+function quickSortAscendenete(items, left, right, arry) {
+    let index;
+    if (items.length > 1) {
+        index = partitionAscendente(items, left, right, arry); //index returned from partition
+        if (left < index - 1) { //more elements on the left side of the pivot
+            quickSortAscendenete(items, left, index - 1, arry);
+        }
+        if (index < right) { //more elements on the right side of the pivot
+            quickSortAscendenete(items, index, right, arry);
+        }
+    }
+    return items;
+}
+function partitionDescendente(items, left, right, arry) {
+    let pivot   = items[Math.floor((right + left) / 2)], //middle element
+        i       = left, //left pointer
+        j       = right; //right pointer
+    while (i <= j) {
+        while (items[i] > pivot) {
+            i++;
+        }
+        while (items[j] < pivot) {
+            j--;
+        }
+        if (i <= j) {
+            swap(items, i, j); //sawpping two elements
+            swap(arry, i ,j)
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+
+function quickSortDescendenete(items, left, right, arry) {
+    let index;
+    if (items.length > 1) {
+        index = partitionDescendente(items, left, right, arry); //index returned from partition
+        if (left < index - 1) { //more elements on the left side of the pivot
+            quickSortDescendenete(items, left, index - 1, arry);
+        }
+        if (index < right) { //more elements on the right side of the pivot
+            quickSortDescendenete(items, index, right, arry);
+        }
+    }
+    return items;
+}
+// first call to quick sort
+function punto5(beers,propiedad,bool){
+    let items = (arrayNum(beers,propiedad))
+    let arry = arrayPunto5(beers,propiedad)
+    if(bool){
+        let sortedArray = quickSortAscendenete(items, 0, items.length - 1, arry)
+    }
+    else{
+        let sortedArray = quickSortDescendenete(items, 0, items.length - 1, arry)
+    }
+    return arry
+}
+for(let y of punto5(beers,"ph",true)){
+    console.log(y.ph)
+}
